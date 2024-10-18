@@ -47,20 +47,23 @@ def timer(function, array):
     return stop
 
 def test_bubble():
-    runtimes = list()
+    bubble_runtimes = list()
+    bubble_clause_best_runtimes = list()
+    bubble_clause_worst_runtimes = list()
     for i in range(100, 10100, 1000):
-        runtimes.append([i, timer(bubble_sort, generator(i))])
-    return runtimes
-
-def test_bubble_clause():
-    runtimes = list()
-    for i in range(100, 10100, 1000):
-        runtimes.append([i, timer(bubble_sort_clause, generator(i))])
-    return runtimes
+        array = generator(i)
+        bubble_runtimes.append([i, timer(bubble_sort, array)]) # test bubble sort without clause
+        array.sort()
+        bubble_clause_best_runtimes.append([i, timer(bubble_sort_clause, array)]) # best case: list is already sorted
+        array.sort(reverse=True)
+        bubble_clause_worst_runtimes.append([i, timer(bubble_sort_clause, array)]) # worst case : list is sorted in reverse
+    return bubble_runtimes, bubble_clause_best_runtimes, bubble_clause_worst_runtimes
 
 def save(array, sort):
     np.savetxt(sort, array, delimiter=',', header="input,time")
 
+bubble_runtimes, bubble_clause_best_runtimes, bubble_clause_worst_runtimes = test_bubble()
 
-save(test_bubble(), "bubble_sort.csv")
-save(test_bubble_clause(), "bubble_sort_clause.csv")
+save(bubble_runtimes, "bubble_sort.csv")
+save(bubble_clause_best_runtimes, "bubble_clause_best.csv")
+save(bubble_clause_worst_runtimes, "bubble_clause_worst.csv")
