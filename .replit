@@ -1,0 +1,8 @@
+modules = ["python-3.12"]
+run = "python AAAGraphGenerator.py 2 bubble_clause_worst.csv bubble_clause_best.csv bubble_sort_clause"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "python AAAGraphGenerator.py 2 bubble_clause_worst.csv bubble_clause_best.csv bubble_sort_clause"]
